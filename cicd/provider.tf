@@ -10,7 +10,7 @@ terraform {
         bucket = "leela-expense-remote-state"
         key = "jenkins"
         region = "us-east-1"
-        dynamodb_table = "expense-dynamo-locking"
+        dynamodb_table = "expense-dynamo"
 
     }
 }
