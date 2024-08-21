@@ -7,7 +7,7 @@ terraform {
     }
 
     backend "s3" {
-        bucket = "leela-expense-remote-state"
+        bucket = "leelaexpense-remote-state"
         key = "jenkins"
         region = "us-east-1"
         dynamodb_table = "expense-dynamo"
