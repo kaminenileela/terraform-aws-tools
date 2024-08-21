@@ -3,7 +3,7 @@ module "jenkins" {
 
   name = "jenkins-tf"
   instance_type          = "t3.small"
-  vpc_security_group_ids = [sg-015c3232180617394]
+  vpc_security_group_ids = ["sg-015c3232180617394"]
   subnet_id              = "subnet-0f4f0cef3b00114cb"
   ami = data.aws_ami.ami_info.id
   user_data = file("jenkins.sh")
@@ -18,7 +18,7 @@ module "jenkins_agent" {
   name = "jenkins-agent"
 
   instance_type          = "t3.small"
-  vpc_security_group_ids = [sg-015c3232180617394]
+  vpc_security_group_ids = ["sg-015c3232180617394"]
   subnet_id = "subnet-0f4f0cef3b00114cb"
   ami = data.aws_ami.ami_info.id
   user_data = file("jenkins-agent.sh")
@@ -35,11 +35,10 @@ resource "aws_key_pair" "tools" {
 
 module "nexus" {
   source  = "terraform-aws-modules/ec2-instance/aws"
-
   name = "nexus"
   key_name = aws_key_pair.tools.key_name
   instance_type          = "t3.medium"
-  vpc_security_group_ids = [sg-015c3232180617394]
+  vpc_security_group_ids = ["sg-015c3232180617394"]
   subnet_id = "subnet-0f4f0cef3b00114cb"
   ami = data.aws_ami.nexus_ami_info.id
   root_block_device = [
