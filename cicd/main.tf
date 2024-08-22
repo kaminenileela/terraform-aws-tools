@@ -27,30 +27,30 @@ module "jenkins_agent" {
   }
 }
 
-resource "aws_key_pair" "tools" {
-  key_name   = "tools"
-  # public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+fcmTgj3LtZ9uRhv70aoWwgZ1X2zb2vxkworAMKKaQ Leela@LEELA-DESKTOP"
-  public_key = file ("~/.ssh/tools.pub")
-}
+# resource "aws_key_pair" "tools" {
+#   key_name   = "tools"
+#   # public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+fcmTgj3LtZ9uRhv70aoWwgZ1X2zb2vxkworAMKKaQ Leela@LEELA-DESKTOP"
+#   public_key = file ("~/.ssh/tools.pub")
+# }
 
-module "nexus" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  name = "nexus"
-  key_name = aws_key_pair.tools.key_name
-  instance_type          = "t3.medium"
-  vpc_security_group_ids = ["sg-08f2ddc93f0e03f9f"]
-  subnet_id = "subnet-0db0c24c719dbb867"
-  ami = data.aws_ami.nexus_ami_info.id
-  root_block_device = [
-    {
-      volume_type = "gp3"
-      volume_size = 30
-    }
-  ]
-  tags = {
-    Name = "nexus"
-  }
-}
+# module "nexus" {
+#   source  = "terraform-aws-modules/ec2-instance/aws"
+#   name = "nexus"
+#   key_name = aws_key_pair.tools.key_name
+#   instance_type          = "t3.medium"
+#   vpc_security_group_ids = ["sg-08f2ddc93f0e03f9f"]
+#   subnet_id = "subnet-0db0c24c719dbb867"
+#   ami = data.aws_ami.nexus_ami_info.id
+#   root_block_device = [
+#     {
+#       volume_type = "gp3"
+#       volume_size = 30
+#     }
+#   ]
+#   tags = {
+#     Name = "nexus"
+#   }
+# }
 
 module "records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
@@ -76,16 +76,16 @@ module "records" {
         module.jenkins_agent.private_ip
       ]
       allow_overwrite = true
-    },
-    {
-      name    = "nexus"
-      type    = "A"
-      ttl     = 1
-      records = [
-        module.nexus.private_ip
-      ]
-      allow_overwrite = true
     }
+    # {
+    #   name    = "nexus"
+    #   type    = "A"
+    #   ttl     = 1
+    #   records = [
+    #     module.nexus.private_ip
+    #   ]
+    #   allow_overwrite = true
+    # }
   ]
 
 }
