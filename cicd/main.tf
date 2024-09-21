@@ -27,6 +27,21 @@ module "jenkins_agent" {
   }
 }
 
+module "docker" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "docker"
+
+  instance_type          = "t3.micro"
+  vpc_security_group_ids = ["sg-015c3232180617394"]
+  subnet_id = "subnet-0f4f0cef3b00114cb"
+  ami = data.aws_ami.ami_info.id
+  user_data = file("docker.sh")
+  tags = {
+    Name = "docker"
+  }
+}
+
 # resource "aws_key_pair" "tools" {
 #   key_name   = "tools"
 #   # public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+fcmTgj3LtZ9uRhv70aoWwgZ1X2zb2vxkworAMKKaQ Leela@LEELA-DESKTOP"
